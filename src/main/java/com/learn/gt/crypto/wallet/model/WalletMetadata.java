@@ -24,8 +24,6 @@ public class WalletMetadata {
 
     private String password;
 
-    private Long beforeDecimalPoint;
-
-    private Long afterDecimalPoint;
+    private WalletAmount amount;
 
 }
