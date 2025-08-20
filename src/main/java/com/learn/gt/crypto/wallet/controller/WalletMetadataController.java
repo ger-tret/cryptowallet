@@ -22,8 +22,8 @@ public class WalletMetadataController {
     }
 
     @PostMapping("/open")
-    public ResponseEntity<UUID> createNewWallet(@RequestBody WalletMetadataDto walletMetadataDto){
-        return ResponseEntity.ok(walletService.createWallet(walletMetadataDto));
+    public ResponseEntity<UUID> createNewWallet(@RequestBody String password){
+        return ResponseEntity.ok(walletService.createWallet(new WalletMetadataDto(password)));
     }
 
     @PostMapping("/transfer")

@@ -1,6 +1,7 @@
 package com.learn.gt.crypto.wallet.dto;
 
 import com.learn.gt.crypto.wallet.model.WalletAmount;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,4 +24,9 @@ public class WalletMetadataDto {
 
     private WalletAmount amount;
 
+    public WalletMetadataDto(String password){
+        this.walletId = UUID.randomUUID();
+        this.password = password;
+        this.amount = WalletAmount.valueOf("0.0");
+    }
 }

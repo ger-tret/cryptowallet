@@ -5,6 +5,7 @@ import com.learn.gt.crypto.wallet.model.WalletAmount;
 import com.learn.gt.crypto.wallet.model.WalletMetadata;
 import com.learn.gt.crypto.wallet.repository.WalletRepository;
 import com.learn.gt.crypto.wallet.service.mapper.WalletMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,25 +25,29 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
+    @Transactional
     public UUID createWallet(WalletMetadataDto walletMetadataDto) {
-        if(walletRepository.findById(walletMetadataDto.getWalletId()).isPresent()){
-            throw new RuntimeException("Wallet for that ID=" + walletMetadataDto.getWalletId() + "already exists");
-        }
+//        if(walletRepository.findById(walletMetadataDto.getWalletId()).isPresent()){
+//            throw new RuntimeException("Wallet for that ID=" + walletMetadataDto.getWalletId() + "already exists");
+//        }
             return walletRepository.save(walletMapper.mapperDtoToEntity().map(walletMetadataDto)).getWalletId();
     }
 
     @Override
+    @Transactional
     public WalletMetadata findWallet(UUID walletId) {
         return walletRepository.findById(walletId).orElseThrow();
     }
 
     @Override
+    @Transactional
     public WalletAmount findWalletAndCheckBalance(UUID walletId){
         var targetWallet =  walletRepository.findById(walletId).orElseThrow();
         return targetWallet.getAmount();
     }
 
     @Override
+    @Transactional
     public UUID addToWallet(UUID id, WalletAmount amount) {
         WalletMetadata updatedWalletMetadata = walletRepository.findById(id).orElseThrow();
         updatedWalletMetadata.getAmount().add(amount);
@@ -50,6 +55,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
+    @Transactional
     public UUID subtractFromWallet(UUID id, WalletAmount amount) {
         var updatedWalletMetadata = walletRepository.findById(id).orElseThrow();
         updatedWalletMetadata.getAmount().substract(amount);
@@ -57,6 +63,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
+    @Transactional
     public UUID transferFromWalletToWallet(UUID fromId, UUID toId, WalletAmount amount) {
         var fromWallet = walletRepository.findById(fromId).orElseThrow();
         var toWallet = walletRepository.findById(toId).orElseThrow();

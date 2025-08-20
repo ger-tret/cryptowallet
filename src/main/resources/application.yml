@@ -12,7 +12,7 @@ spring:
       ddl-auto: update
   liquibase:
     change-log:
-      classpath: db/changelog/db.changelog-master.yaml
+      classpath: db.changelog/dbchangelog.xml
     enabled: true
 server:
   port: 8080

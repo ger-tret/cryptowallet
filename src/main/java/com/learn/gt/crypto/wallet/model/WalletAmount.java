@@ -1,27 +1,25 @@
 package com.learn.gt.crypto.wallet.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
+@Data
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WalletAmount {
+public class WalletAmount implements Serializable {
 
     private Long beforeDecimalPoint;
     private Long afterDecimalPoint;
 
-    public static WalletAmount valueOf(String amount){
-        WalletAmount walletAmount = null;
-        String[] values = amount.split(":");
-        walletAmount.beforeDecimalPoint = Long.valueOf(values[0]);
-        walletAmount.afterDecimalPoint = Long.valueOf(values[1]);
-        return walletAmount;
+    public static WalletAmount valueOf(String amount){;
+        String[] values = amount.split("[.]");
+        return new WalletAmount(Long.valueOf(values[0]), Long.valueOf(values[1]));
     }
 
     public static WalletAmount valueOf(BigDecimal amount){
